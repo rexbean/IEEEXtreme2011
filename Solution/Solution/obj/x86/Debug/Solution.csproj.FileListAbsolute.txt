@@ -1,0 +1,9 @@
+D:\inspiration\IEEE2013\Solution\Solution\bin\Debug\Solution.exe
+D:\inspiration\IEEE2013\Solution\Solution\bin\Debug\Solution.pdb
+D:\inspiration\IEEE2013\Solution\Solution\bin\Debug\Newtonsoft.Json.dll
+D:\inspiration\IEEE2013\Solution\Solution\bin\Debug\Newtonsoft.Json.xml
+D:\inspiration\IEEE2013\Solution\Solution\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\inspiration\IEEE2013\Solution\Solution\obj\x86\Debug\Solution.exe
+D:\inspiration\IEEE2013\Solution\Solution\obj\x86\Debug\Solution.pdb
+G:\备份数据\inspiration\Finished\IEEE2013\Solution\Solution\obj\x86\Debug\Solution.exe
+G:\备份数据\inspiration\Finished\IEEE2013\Solution\Solution\obj\x86\Debug\Solution.pdb

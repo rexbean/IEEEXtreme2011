@@ -1,0 +1,575 @@
+import java.util.Scanner;
+
+public class Solution{
+	public static void main(String[] args){
+		SolutionTemple solTemple = new SolutionTemple();
+		solTemple.main();
+	}
+	
+}
+
+class SolutionTemple {
+	public class DigitLine{
+		public int size;
+		public int gapSize;
+		public int lineWidth;
+		public int[][] lines;
+		char numberDig;
+		String displayString;
+		int pixelWidth;
+		
+		public char CoverToChar(int i){
+			char result = ' ';
+			switch (i) {
+			case 1:
+				result = numberDig;
+				break;
+			case 2:
+				result = '+';
+				break;
+			case 3:
+				result = '-';
+				break;
+			case 4:
+				result = '*';
+				break;
+			case 5:
+				result = '/';
+				break;
+			case 6:
+				result = '%';
+				break;
+
+			}
+			return result;
+		}
+		
+		public void PrintLine(){
+			for(int j = 0; j <size ;j++){
+				for(int i = 0 ;i<pixelWidth;i++){
+					char item = CoverToChar(lines[j][i]);
+					System.out.print(item);
+				}	
+				if(j != size -1){
+					System.out.println();
+				}
+			}
+		}
+		
+		public DigitLine(String string,int size,int gapsize,char numberDig){
+			this.displayString = string;
+			this.size = size;
+			this.gapSize = gapsize;
+			this.numberDig = numberDig;
+			this.AnaLineSize(string);
+		}
+		
+		public void AnaLineSize(String string){
+			int gapCount = string.length()-1;
+			int charCount = string.length();
+			pixelWidth = charCount*size+gapSize*gapCount;
+			lines = new int[size][pixelWidth];
+		}
+		
+		public void WriteToLines(){
+
+			int currentIndex = 0;
+			for(int i = 0 ; i < displayString.length();i++){
+				char item = displayString.charAt(i);
+				
+				if(item != ' '){
+					Determin(currentIndex, item);
+				}
+				
+				currentIndex += (gapSize+size);
+			}
+		}
+		
+		public void DrawLine(){
+			for(int i = 0 ;i < pixelWidth;i++){
+				System.out.print('-');
+			}
+			System.out.println();
+		}
+		
+		public void Determin(int start,char item){
+			switch (item) {
+			case '+':
+				this.ShowPlus(start);
+				break;
+			case '-':
+				this.ShowMins(start);
+				break;
+			case '*':
+				this.ShowMutil(start);
+				break;
+			case '/':
+				this.ShowDivisor(start);
+				break;	
+			case '%':
+				this.ShowRemin(start);
+				break;
+			case 'm':
+				this.ShowNegOp(start);
+				break;
+			case '0':
+				this.Show0(start);
+				break;
+			case '1':
+				this.Show1(start);
+				break;
+			case '2':
+				this.Show2(start);
+				break;
+			case '3':
+				this.Show3(start);
+				break;
+			case '4':
+				this.Show4(start);
+				break;
+			case '5':
+				this.Show5(start);
+				break;
+			case '6':
+				this.Show6(start);
+				break;
+			case '7':
+				this.Show7(start);
+				break;	
+			case '8':
+				this.Show8(start);
+				break;		
+			case '9':
+				this.Show9(start);
+				break;		
+				
+			}
+			
+		}
+		
+		public void Show1(int start){
+			//Draw Bottom
+			for(int i = start;i<start+size;i++){
+				lines[size-1][i] = 1;
+			}
+			int mid = start + size/2;
+			
+			//Draw mid |
+			for(int i = 0;i<size;i++){
+				lines[i][mid] = 1;
+			}
+			
+			//Draw diagonal slope 
+			int temp = mid;
+			for(int i = 0;i< size/2;i++){
+				lines[i][temp] = 1;
+				temp--;
+			}
+		}
+		
+		public void Show2(int start){
+			//Draw three line
+			int mid = (size)/2;
+			
+			for(int i = start;i<start+size;i++){
+				lines[size-1][i] = 1;
+				lines[0][i] = 1;
+				lines[mid][i] = 1;
+			}
+			
+			//Draw two |
+			for(int i = 0;i<(size)/2;i++){
+				lines[i][start+size-1] = 1;
+				lines[i+(size)/2][start] = 1;
+			}
+
+		}
+		
+		public void Show3(int start){
+			//Draw three line
+			int mid = (size)/2;
+			
+			for(int i = start;i<start+size;i++){
+				lines[size-1][i] = 1;
+				lines[0][i] = 1;
+				lines[mid][i] = 1;
+			}
+			
+			//Draw two |
+			for(int i = 0;i<(size)/2;i++){
+				lines[i][start+size-1] = 1;
+				lines[i+(size)/2][start+size-1] = 1;
+			}
+
+		}
+
+		public void Show4(int start){
+			//Draw one line
+			int mid = (size)/2;
+			
+			for(int i = start;i<start+size;i++){
+
+				lines[mid][i] = 1;
+			}
+			
+			//Draw two |
+			for(int i = 0;i<size;i++){
+				lines[i][start+size-1] = 1;
+			}
+			
+			for(int i = 0;i<(size)/2;i++){
+				lines[i][start] = 1;
+			}
+
+		}
+		
+		public void Show5(int start){
+			//Draw three line
+			int mid = (size)/2;
+			
+			for(int i = start;i<start+size;i++){
+				lines[size-1][i] = 1;
+				lines[0][i] = 1;
+				lines[mid][i] = 1;
+			}
+			
+			//Draw two |
+			for(int i = 0;i<(size)/2;i++){
+				lines[i][start] = 1;
+				lines[i+(size)/2][start+size-1] = 1;
+			}
+
+		}
+
+		public void Show6(int start){
+			//Draw three line
+			int mid = (size)/2;
+			
+			for(int i = start;i<start+size;i++){
+				lines[size-1][i] = 1;
+				lines[0][i] = 1;
+				lines[mid][i] = 1;
+			}
+			
+			//Draw two |
+			for(int i = 0;i<size;i++){
+				lines[i][start]=1;
+			}
+			//Draw half |
+			for(int i = 0;i<(size)/2;i++){
+	
+				lines[i+(size)/2][start+size-1] = 1;
+			}
+
+		}
+
+		public void Show7(int start){
+			//Draw top
+			for(int i = start;i<start+size;i++){
+				lines[0][i] = 1;
+			}
+			
+			//Draw slope
+			int temp = size-1;
+			for(int i=0;i<size;i++){
+				lines[i][start+temp] = 1;
+				temp--;
+			}
+			
+			
+		}
+
+		public void Show8(int start){
+			//Draw three line
+			int mid = (size)/2;
+			
+			for(int i = start;i<start+size;i++){
+				lines[size-1][i] = 1;
+				lines[0][i] = 1;
+				lines[mid][i] = 1;
+			}
+			
+			//Draw two |
+			for(int i = 0;i<size;i++){
+				lines[i][start+size-1] = 1;
+				lines[i][start] = 1;
+			}
+
+		}	
+
+		public void Show9(int start){
+			//Draw three line
+			int mid = (size)/2;
+			
+			for(int i = start;i<start+size;i++){
+				lines[size-1][i] = 1;
+				lines[0][i] = 1;
+				lines[mid][i] = 1;
+			}
+			
+			//Draw two |
+			for(int i = 0;i<size;i++){
+				lines[i][start+size-1]=1;
+			}
+			//Draw half |
+			for(int i = 0;i<(size)/2;i++){
+	
+				lines[i][start] = 1;
+			}
+
+		}
+
+		public void Show0(int start){
+			
+			for(int i = start;i<start+size;i++){
+				lines[size-1][i] = 1;
+				lines[0][i] = 1;
+			}
+			
+			//Draw two |
+			for(int i = 0;i<size;i++){
+				lines[i][start]=1;
+				lines[i][start+size-1]=1;
+			}
+		}
+
+		public void ShowNegOp(int start){
+			int mid = (size)/2;
+			
+			for(int i = start;i<start+size;i++){
+				lines[mid][i] = 1;
+			}
+		}
+		
+		public void ShowPlus(int start){
+			int mid = (size)/2;
+			
+			for(int i = start;i<start+size;i++){
+				lines[mid][i] = 2;
+			}			
+			
+			//draw |
+			for(int i = 1;i<size-1;i++){
+				lines[i][start+mid] = 2;
+			}
+		}
+
+		public void ShowMins(int start){
+			int mid = (size)/2;
+			
+			for(int i = start;i<start+size;i++){
+				lines[mid][i] = 3;
+			}			
+			
+		}
+
+		public void ShowMutil(int start){
+			
+			for(int i = start+1;i<start+size-1;i++){
+				for(int j = start+1;j<start+size-1;j++){
+					lines[j][i] = 4;
+				}
+			}			
+			
+		}
+	
+		public void ShowDivisor(int start){
+			
+			int temp = size;
+			for(int i=0;i<size;i++){
+				lines[i][start+temp-1] = 5;
+				temp--;
+			}
+		
+			
+		}
+
+		public void ShowRemin(int start){
+			int temp = size;
+			for(int i=0;i<size;i++){
+				lines[i][start+temp-1] = 6;
+				temp--;
+			}
+			
+			//Two circle
+			int circleSize = size/4;
+			//Draw top
+			for(int i = start;i<start+circleSize;i++){
+				for(int j = 0; j<circleSize;j++){
+					lines[j][i] = 6;
+				}
+			}
+			
+			//Draw bottom
+			for(int i = start+size-circleSize;i<start+size;i++){
+				for(int j = size-circleSize; j< size ;j++){
+					lines[j][i] = 6;
+				}			
+			}
+		}
+		
+	}
+
+	//Input
+
+	char numb;
+	int charSize;
+	int gapSize;
+	
+	public void Input(){
+		Scanner scanner = new Scanner(System.in);
+		for(int i = 0;i<6;i++){
+			String string = scanner.nextLine();
+			if(i == 0){
+				firstOp = string;
+			}
+			if(i == 1){
+				secondOp = string;
+			}
+			if (i == 2) {
+				op = string.toCharArray()[0];
+			}
+			if(i == 3){
+				numb = string.toCharArray()[0];
+			}
+			if(i == 4){
+				charSize = Integer.parseInt(string);
+			}if(i == 5){
+				gapSize = Integer.parseInt(string);
+			}
+			
+		}
+	}
+
+	
+	String firstOp;
+	String secondOp;
+	char op;
+
+	
+	public String cal(){
+		int first = Integer.parseInt(firstOp);
+		int second = Integer.parseInt(secondOp);
+		int result = 0;
+		switch (op) {
+		case '+':
+			result = first+second;
+			break;
+		case '-':
+			result = first-second;
+			break;
+		case '*':
+			result = first*second;
+			break;
+		case '/':
+			result = first/second;
+			break;
+		case '%':
+			result = first%second;
+			break;
+		}
+		String resultString = String.valueOf(result);
+		return resultString;
+	}
+	
+	public String[] analize(){
+		String result = this.cal();
+		String[] strings = new String[3];
+		strings[0] = firstOp;
+		strings[1] = secondOp;
+		strings[2] = result;
+		int maxLength = 0;
+		for (String stringItem:strings) {
+			if(stringItem.length()>maxLength){
+				maxLength = stringItem.length();
+			}
+		}
+		maxLength += 1;
+		
+		//FirstLine
+		char firstLine[] = new char[maxLength];
+		for (int i = 0; i < firstLine.length; i++) {
+			firstLine[i] = ' ';
+		}
+		
+		int count = 0;
+		for(int i = maxLength-firstOp.length();i<maxLength;i++){
+			firstLine[i] = firstOp.charAt(count);
+			if(firstLine[i] == '-'){
+				firstLine[i] = 'm';
+			}
+			count++;
+		}
+		
+		//SecondLine
+		char secondLine[] = new char[maxLength];
+		for (int i = 0; i < secondLine.length; i++) {
+			secondLine[i] = ' ';
+		}
+		
+		count = 0;
+		for(int i = maxLength-secondOp.length();i<maxLength;i++){
+			secondLine[i] = secondOp.charAt(count);
+			if(secondLine[i] == '-'){
+				secondLine[i] = 'm';
+			}
+			count++;
+		}
+		secondLine[0] = op;
+		
+		//Result Line
+		char resultLine[] = new char[maxLength];
+		for (int i = 0; i < resultLine.length; i++) {
+			resultLine[i] = ' ';
+		}
+		
+		count = 0;
+		for(int i = maxLength-result.length();i<maxLength;i++){
+			resultLine[i] = result.charAt(count);
+			if(resultLine[i] == '-'){
+				resultLine[i] = 'm';
+			}		
+			count++;
+		}
+		
+		//Speate Line
+		char spearteLine[] = new char[maxLength];
+		for (int i = 0; i < maxLength; i++) {
+			spearteLine[i] = '-';
+		}
+		
+		String[] linesStrings = new String[4];
+		linesStrings[0] = String.copyValueOf(firstLine);
+		linesStrings[1] = String.copyValueOf(secondLine);
+		linesStrings[2] = String.copyValueOf(spearteLine);
+		linesStrings[3] = String.copyValueOf(resultLine);
+		return linesStrings;
+	}
+	
+	public void main() {
+		Input();
+			
+		String[] reStrings = this.analize();
+		
+		int count = 0;
+		for(String s:reStrings){
+			DigitLine newDigitLine = new DigitLine(s, charSize,gapSize,numb);
+			if(count == 2){
+				newDigitLine.DrawLine();
+				System.out.println();
+				count++;
+				continue;
+			}
+			
+			newDigitLine.WriteToLines();
+			newDigitLine.PrintLine();
+			if(count != 3){
+				System.out.println();
+				System.out.println();
+			}
+			count++;
+		}
+
+	}
+
+}

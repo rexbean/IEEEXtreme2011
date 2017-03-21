@@ -1,0 +1,278 @@
+import java.util.Scanner;
+
+
+
+public class SolutionD{
+	public static void main(String[] args){
+		SolutionTemple solTemple = new SolutionTemple();
+		solTemple.main();
+	}
+	
+}
+
+class SolutionTemple {
+	public class Pair{
+		public int x;
+		public int y;
+		public Pair(int x,int y){
+			this.x = x;
+			this.y = y;
+		}
+	}
+	
+	public class CubeColor{
+		public int colorIndex;
+	}
+	
+	public class Face{
+		public int FaceID;
+		public CubeColor[][] faceColor;
+		public Face upFace;
+		public Face downFace;
+		public Face rightFace;
+		public Face leftFace;
+		public Face Opposite;
+		
+		
+		
+		public CubeColor[] FindAdjInfo(Face target){
+			Face origFace = this;
+			CubeColor[] pairs = new CubeColor[3];
+
+			if(target.upFace == origFace){
+				 
+				for(int i = 0;i < 3;i++){
+					pairs[i] = target.faceColor[0][i];
+				}
+					
+			}else if(target.downFace == origFace){
+
+				int invers = 0;
+				for(int i = 2;i>=0;i--){
+					pairs[invers] = target.faceColor[2][i];
+					invers++;
+				}
+				
+			}else if(target.rightFace == origFace){
+			
+				for(int i = 0;i < 3;i++){
+					pairs[i] = target.faceColor[i][2];
+				}
+			}else if(target.leftFace == origFace){
+				int invers = 0;
+				for(int i = 2;i >= 0;i--){
+					pairs[invers] = target.faceColor[i][0];
+					invers ++;
+				}
+			}
+			
+			
+			return pairs;
+		}
+		
+		
+		public void SetFace(Face up,Face right,Face down,Face left,Face oppo,int faceId,int colorIndex){
+			this.upFace = up;
+			this.rightFace = right;
+			this.downFace = down;
+			this.leftFace = left;
+			this.Opposite = oppo;
+			this.FaceID = faceId;
+			this.faceColor = new CubeColor[3][3];
+			
+			for(int i = 0;i<3;i++){
+				for(int j = 0;j<3;j++){
+					faceColor[i][j] = new CubeColor();
+					faceColor[i][j].colorIndex = colorIndex;
+				}
+				
+			}
+		};
+		
+		public Face FaceIDtoIndex(char a){
+			Face result = null;
+			switch (a) {
+			case 'R':
+				result = this.rightFace;
+				break;
+			case 'L':
+				result = this.leftFace;
+				break;
+			case 'F':
+				result = this;
+				break;
+			case 'B':
+				result = this.Opposite;
+				break;
+			case 'U':
+				result = this.upFace;
+				break;
+			case 'D':
+				result = this.downFace;
+				break;
+			}
+			return result;
+		}
+		
+		public void MatchAnimation(String string){
+			for(int i = 0;i < string.length();i++){
+				char currentItem = string.charAt(i);
+
+				if(currentItem > 'A' && currentItem < 'Z'){
+					char faceID = currentItem;
+					
+					if(i+1 < string.length() && string.charAt(i+1) == '\''){
+						char currentNumItem = '1';
+						if(i+2 < string.length() && string.charAt(i+2)> '0' && string.charAt(i+2) < '9'){
+							currentNumItem = string.charAt(i+2);
+						}
+						Face targetFace = FaceIDtoIndex(faceID);
+						int num = currentNumItem - 48;
+						targetFace.MoveFace(-1, num);
+						
+					}else{
+						char currentNumItem = '1';
+						if(i+1 < string.length() && string.charAt(i+1)> '0' && string.charAt(i+1) < '9'){
+							currentNumItem = string.charAt(i+1);
+						}					
+					
+						Face targetFace = FaceIDtoIndex(faceID);
+						int num = currentNumItem - 48;
+						targetFace.MoveFace(1, num);
+					}
+					
+				}
+				
+			}
+			
+		}
+		
+		public void MoveFace(int direction,int count){
+			
+			int clockWiseCount = count;
+		
+			boolean clockWise = false;
+			boolean anticlockwise = false;
+			if(direction == -1){
+				anticlockwise = true;
+			}else{
+				clockWise = true;
+			}
+			
+			
+			for(int i = 0;i<clockWiseCount;i++){
+				if(clockWise){
+					this.Roate();
+				}
+				if(anticlockwise){
+					this.Roate();
+					this.Roate();
+					this.Roate();
+				}
+			}
+			
+			
+		}
+
+		public void Roate(){
+
+				//Backup field
+				int backUp02 = faceColor[0][2].colorIndex;
+				int backUp05 = faceColor[1][2].colorIndex;
+				int backUp08 = faceColor[2][2].colorIndex;
+				//Flip first side			
+				faceColor[2][2].colorIndex = faceColor[0][2].colorIndex;
+				faceColor[1][2].colorIndex = faceColor[0][1].colorIndex;
+				faceColor[0][2].colorIndex = faceColor[0][0].colorIndex;
+				
+				//Flip second side
+				faceColor[0][2].colorIndex = faceColor[0][0].colorIndex;
+				faceColor[0][1].colorIndex = faceColor[1][0].colorIndex;
+				faceColor[0][0].colorIndex = faceColor[2][0].colorIndex;
+				
+				//Flip thrid side
+				
+				faceColor[0][0].colorIndex = faceColor[2][0].colorIndex;
+				faceColor[1][0].colorIndex = faceColor[2][1].colorIndex;
+				faceColor[2][0].colorIndex = backUp08;
+				//Flip 4th side			
+				faceColor[2][0].colorIndex = backUp08;
+				faceColor[2][1].colorIndex = backUp05;
+				faceColor[2][2].colorIndex = backUp02;
+				
+				//Handle topFace
+				CubeColor[] topFaceAdjInfo = this.FindAdjInfo(upFace);
+				CubeColor[] leftFaceAdjInfo = this.FindAdjInfo(leftFace);
+				CubeColor[] rightFaceAdjInfo = this.FindAdjInfo(rightFace);
+				CubeColor[] downFaceAdjInfo = this.FindAdjInfo(downFace);
+				
+				//backup
+				int backTopAdjColors[] = new int[3];
+				for(int j = 0;j<3;j++){
+					backTopAdjColors[j] = topFaceAdjInfo[j].colorIndex;
+				}
+				//top -> left -> down -> right <- backtp
+				topFaceAdjInfo[0].colorIndex = leftFaceAdjInfo[0].colorIndex;
+				topFaceAdjInfo[1].colorIndex = leftFaceAdjInfo[1].colorIndex;
+				topFaceAdjInfo[2].colorIndex = leftFaceAdjInfo[2].colorIndex;
+				
+				leftFaceAdjInfo[0].colorIndex = downFaceAdjInfo[0].colorIndex;
+				leftFaceAdjInfo[1].colorIndex = downFaceAdjInfo[1].colorIndex;
+				leftFaceAdjInfo[2].colorIndex = downFaceAdjInfo[2].colorIndex;
+				
+				downFaceAdjInfo[0].colorIndex = rightFaceAdjInfo[0].colorIndex;
+				downFaceAdjInfo[1].colorIndex = rightFaceAdjInfo[1].colorIndex;
+				downFaceAdjInfo[2].colorIndex = rightFaceAdjInfo[2].colorIndex;
+				
+				rightFaceAdjInfo[0].colorIndex = backTopAdjColors[0];
+				rightFaceAdjInfo[1].colorIndex = backTopAdjColors[1];
+				rightFaceAdjInfo[2].colorIndex = backTopAdjColors[2];
+				
+			
+			
+		}
+	}
+
+	//Input
+	String colorInfoString;
+	String moveActionString;
+	public void Input(){
+		Scanner scanner = new Scanner(System.in);
+		colorInfoString = scanner.nextLine();
+		moveActionString = scanner.nextLine();
+	}
+
+	public void OutputFace(Face target){
+
+			for (int i = 0; i < 3; i++) {
+				for(int j = 0; j< 3 ;j++){
+					System.out.print(colorInfoString.charAt(target.faceColor[i][j].colorIndex)+" ");
+				}
+				System.out.println();
+			}
+		
+	}
+	
+	public void main() {
+		Input();
+		
+		Face upFace = new Face();
+		Face downFace = new Face();
+		Face rightFace = new Face();
+		Face leftFace = new Face();
+		Face frontFace = new Face();
+		Face backFace = new Face();
+		
+                
+		upFace.SetFace(backFace,rightFace, frontFace, leftFace, downFace, 0, 0);
+		downFace.SetFace(frontFace,rightFace, backFace, leftFace, upFace, 5, 5);
+		rightFace.SetFace(upFace, backFace, downFace, frontFace, leftFace, 3, 3);
+		leftFace.SetFace(upFace,frontFace, downFace, backFace, rightFace, 1, 1);
+		frontFace.SetFace(upFace, rightFace, downFace, leftFace, backFace, 2, 2);
+		backFace.SetFace(upFace,leftFace,downFace,rightFace,frontFace,4,4);
+
+		frontFace.MatchAnimation(moveActionString);
+		OutputFace(frontFace);
+	}
+
+}

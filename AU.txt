@@ -1,0 +1,171 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace SolutionAU
+{
+    class Program
+    {
+        static string dataString = null;
+        static string[] dataArray = null;
+        static string STDOUT = null;
+        static void Main(string[] args)
+        {
+            bool result;
+            string sum = null;
+            result = Input();
+            if (result == true)
+            {
+                sum=Calculate();
+                Console.WriteLine(sum);
+            }
+            else
+            {
+                Console.WriteLine("false!");
+            }
+            Console.ReadLine();
+        }
+
+        private static bool Input()
+        {
+            dataString = Console.ReadLine();
+            dataArray = dataString.Split(' ');
+            return true;
+
+
+
+
+        }
+
+        private static string Calculate()
+        {
+            string pre = null;
+            string next = null;
+            bool isvalid = false;
+            
+            if (dataArray.Length > 15)
+            {
+                STDOUT = "ERROR,Too many codes";
+                return STDOUT;
+            }
+            else if (dataArray[0] == "" || dataArray.Length<=3)
+            {
+                STDOUT = "ERROR,Too short";
+                return STDOUT;
+ 
+            }
+            else
+            {
+                if (dataArray[0].Length > 1)
+                {
+                    STDOUT = "ERROR,Undefined code";
+                    return STDOUT;
+                }
+
+                else
+                {
+                    for (int i = 0; i < dataArray.Length; i++)
+                    {
+                        if (dataArray[i] != "R" && dataArray[i] != "G" && dataArray[i] != "Y" && dataArray[i] != "C" && dataArray[i] != "X" && dataArray[i] != "P")
+                        {
+                            STDOUT = "ERROR,Undefined codes";
+                            return STDOUT;
+                        }
+                    }
+                    //
+                    if (dataArray[0] != "R")
+                    {
+                        STDOUT = "REJECT,doesn't start with R";
+                        return STDOUT;
+                    }
+
+                    else
+                    {
+                        pre = dataArray[0];
+                        next = dataArray[2];
+                        for (int i = 1; i < dataArray.Length; i++)
+                        {
+                            if (dataArray[i] == "G")
+                            {
+                                if (pre == "R" && next == "Y")
+                                {
+                                    isvalid = true;
+                                    pre = dataArray[i];
+                                    if ((i + 2) < dataArray.Length)
+                                    {
+                                        next = dataArray[i + 2];
+                                    }
+                                    else
+                                        break;
+
+                                }
+                                else
+                                    isvalid = false;
+                            }
+                            else if (dataArray[i] == "Y")
+                            {
+                                if (pre == "G" && next == "R")
+                                {
+                                    isvalid = true;
+                                    pre = dataArray[i];
+                                    if ((i + 2) < dataArray.Length)
+                                    {
+                                        next = dataArray[i + 2];
+                                    }
+                                    else
+                                        break;
+
+                                }
+                                else
+                                    isvalid = false;
+
+                            }
+                            else if (dataArray[i] == "C" || dataArray[i] == "P")
+                            {
+                                if (pre == "R" && next == "R")
+                                {
+                                    isvalid = true;
+                                    pre = dataArray[i];
+                                    if ((i + 2) < dataArray.Length)
+                                    {
+                                        next = dataArray[i + 2];
+                                    }
+                                    else
+                                        break;
+
+                                }
+                                else
+                                    isvalid = false;
+
+                            }
+                            else if (dataArray[i] == "R")
+                            {
+                                //continue;
+                                if (dataArray[i + 1] != "R")
+                                {
+                                    isvalid = true;
+                                    pre = dataArray[i];
+                                    next = dataArray[i + 2];
+                                }
+
+                            }
+                            else
+                            {
+
+                                continue;
+                            }
+
+                        }
+
+                        if (isvalid == true)
+                            return "ACCEPT";
+                        else
+                            return "REJECT,invalid sequence";
+                    }
+
+                }
+            }
+        }
+    }
+}

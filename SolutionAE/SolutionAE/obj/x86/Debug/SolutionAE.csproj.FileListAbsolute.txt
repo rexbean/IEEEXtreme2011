@@ -1,0 +1,5 @@
+D:\inspiration\IEEE2013\SolutionAE\SolutionAE\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\inspiration\IEEE2013\SolutionAE\SolutionAE\bin\Debug\SolutionAE.exe
+D:\inspiration\IEEE2013\SolutionAE\SolutionAE\bin\Debug\SolutionAE.pdb
+D:\inspiration\IEEE2013\SolutionAE\SolutionAE\obj\x86\Debug\SolutionAE.exe
+D:\inspiration\IEEE2013\SolutionAE\SolutionAE\obj\x86\Debug\SolutionAE.pdb

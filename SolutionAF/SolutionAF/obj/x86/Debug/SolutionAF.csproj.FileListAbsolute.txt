@@ -1,0 +1,5 @@
+D:\inspiration\IEEE2013\SolutionAF\SolutionAF\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\inspiration\IEEE2013\SolutionAF\SolutionAF\bin\Debug\SolutionAF.exe
+D:\inspiration\IEEE2013\SolutionAF\SolutionAF\bin\Debug\SolutionAF.pdb
+D:\inspiration\IEEE2013\SolutionAF\SolutionAF\obj\x86\Debug\SolutionAF.exe
+D:\inspiration\IEEE2013\SolutionAF\SolutionAF\obj\x86\Debug\SolutionAF.pdb

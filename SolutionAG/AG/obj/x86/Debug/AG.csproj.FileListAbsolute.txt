@@ -1,0 +1,5 @@
+D:\inspiration\IEEE2013\AG\AG\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\inspiration\IEEE2013\AG\AG\bin\Debug\AG.exe
+D:\inspiration\IEEE2013\AG\AG\bin\Debug\AG.pdb
+D:\inspiration\IEEE2013\AG\AG\obj\x86\Debug\AG.exe
+D:\inspiration\IEEE2013\AG\AG\obj\x86\Debug\AG.pdb
